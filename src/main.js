@@ -14,8 +14,29 @@
 				"name": "Mango",
 				"file": "kitten2.jpg",
 				"clicks": 0
+			},
+			{
+				"name": "Skittles",
+				"file": "kitten3.jpg",
+				"clicks": 0
+			},
+			{
+				"name": "Ginger",
+				"file": "kitten4.jpg",
+				"clicks": 0
 			}
 		];
+
+	var catClick = function(cat, clicksElement) {
+		return function() {
+			var getText = function( clickCount ) {
+				return clickCount + ' click(s)';
+			};
+
+			cat.clicks++;
+			clicksElement.innerHTML = getText( cat.clicks );
+		}
+	};
 
 	var mainImage = document.createElement( 'img' );
 
@@ -40,19 +61,14 @@
 
 		label.innerHTML = cat.name;
 
+		label.addEventListener('click', catClick, false);
+
+		//	mainImage.setAttribute( 'src', 'images/' . cat.file );
+
 		img.parentNode.insertBefore(label, img);
 		img.parentNode.insertBefore(clicks, img);
 
-		img.addEventListener( 'click', (function(cat, clicksElement) {
-			return function() {
-				var getText = function( clickCount ) {
-					return clickCount + ' click(s)';
-				};
-
-				cat.clicks++;
-				clicksElement.innerHTML = getText( cat.clicks );
-			};
-		})(cat, clicks));
+		img.addEventListener('click', catClick( cat, clicks ), false);
 	}
 
 })( jQuery );

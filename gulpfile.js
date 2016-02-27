@@ -35,7 +35,7 @@ gulp.task('scripts', function() {
 			'bower_components/foundation/js/foundation/foundation.equalizer.js',
 			'src/**/*.js'
 		])
-		.pipe(concat('main.js'))
+		.pipe(concat('main.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('web/js'));
 });
