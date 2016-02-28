@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
 var watch = require('gulp-watch');
 var minifycss = require('gulp-minify-css');
@@ -28,6 +29,14 @@ gulp.task('sass', function() {
         .pipe(livereload());
 });
 
+gulp.task('jshint', function() {
+	return gulp.src([
+			'src/**/*.js'
+		])
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'))
+});
+
 gulp.task('scripts', function() {
 	return gulp.src([
 			'bower_components/jquery/dist/jquery.js',
@@ -47,4 +56,4 @@ gulp.task('watch', function() {
 	gulp.watch('src/**/*.js', ['scripts']);
 });
 
-gulp.task('default', ['sass', 'watch']);
+gulp.task('default', ['jshint', 'scripts', 'sass', 'watch']);

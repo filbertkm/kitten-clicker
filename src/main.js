@@ -1,74 +1,101 @@
 (function( $ ) {
 
-	$( document ).foundation();
+	var	cats = [
+		{
+			"name": "Miso",
+			"file": "kitten.jpg",
+			"clicks": 0
+		},
+		{
+			"name": "Mango",
+			"file": "kitten2.jpg",
+			"clicks": 0
+		},
+		{
+			"name": "Skittles",
+			"file": "kitten3.jpg",
+			"clicks": 0
+		},
+		{
+			"name": "Ginger",
+			"file": "kitten4.jpg",
+			"clicks": 0
+		}
+	];
 
-	var imageList = document.getElementById( 'image-list' ),
-		imageMain = document.getElementById( 'image-main' ),
-		cats = [
-			{
-				"name": "Miso",
-				"file": "kitten.jpg",
-				"clicks": 0
-			},
-			{
-				"name": "Mango",
-				"file": "kitten2.jpg",
-				"clicks": 0
-			},
-			{
-				"name": "Skittles",
-				"file": "kitten3.jpg",
-				"clicks": 0
-			},
-			{
-				"name": "Ginger",
-				"file": "kitten4.jpg",
-				"clicks": 0
+	var controller = {
+		catClick: function(cat, clicksElement) {
+			return function() {
+				var getText = function( clickCount ) {
+					return clickCount + ' click(s)';
+				};
+
+				cat.clicks++;
+				clicksElement.innerHTML = getText( cat.clicks );
+
+				view.mainImage.setAttribute( 'src', 'images/' + cat.file );
 			}
-		];
-
-	var catClick = function(cat, clicksElement) {
-		return function() {
-			var getText = function( clickCount ) {
-				return clickCount + ' click(s)';
-			};
-
-			cat.clicks++;
-			clicksElement.innerHTML = getText( cat.clicks );
 		}
 	};
 
-	var mainImage = document.createElement( 'img' );
+	var view = {
+		imageList: document.getElementById( 'image-list' ),
+		imageMain: document.getElementById( 'image-main' ),
+		mainImage: document.createElement( 'img' ),
 
-	mainImage.setAttribute( 'src', 'images/' + cats[0].file );
-	imageMain.appendChild( mainImage );
+		setMainImage: function( fileName ) {
+			this.mainImage.setAttribute( 'src', 'images/' + fileName );
+		},
 
-	for ( var i in cats ) {
-		var cat = cats[i],
-			li = document.createElement( 'li' ),
-			img = document.createElement( 'img' ),
-			label = document.createElement( 'h3' ),
-			clicks = document.createElement( 'span' );
+		makeCatLabel: function(cat) {
+			var label = document.createElement( 'h3' );
+			label.innerHTML = cat.name;
 
-		clicks.innerHTML = cat.clicks + ' click(s)';
+			return label;
+		},
 
-		imageList.appendChild( li );
+		makeClickCounter: function(cat) {
+			var clicks = document.createElement( 'span' );
 
-		img.setAttribute( 'src', 'images/' + cat.file );
-		img.setAttribute( 'id', cat.name );
+			clicks.innerHTML = cat.clicks + ' click(s)';
 
-		li.appendChild( img );
+			return clicks;
+		},
 
-		label.innerHTML = cat.name;
+		makeThumbnail: function(cat) {
+			var li = document.createElement( 'li' )
+				img = document.createElement( 'img' ),
+				clicks = this.makeClickCounter( cat );;
 
-		label.addEventListener('click', catClick, false);
+			img.setAttribute( 'src', 'images/' + cat.file )
+			img.setAttribute( 'id', cat.name );
 
-		//	mainImage.setAttribute( 'src', 'images/' . cat.file );
+			li.appendChild( img );
 
-		img.parentNode.insertBefore(label, img);
-		img.parentNode.insertBefore(clicks, img);
+			img.parentNode.insertBefore(this.makeCatLabel(cat), img);
+			img.parentNode.insertBefore(clicks, img);
 
-		img.addEventListener('click', catClick( cat, clicks ), false);
-	}
+			img.addEventListener('click', controller.catClick( cat, clicks ), false);
+
+			return li;
+		},
+
+		init: function() {
+			this.imageMain.appendChild( this.mainImage );
+
+			for ( var i in cats ) {
+				this.imageList.appendChild( view.makeThumbnail( cats[i] ) );
+			}
+		}
+	};
+
+	var init = function() {
+		$( document ).foundation();
+
+		view.setMainImage( cats[0].file );
+		view.init();
+	};
+
+	$( init );
 
 })( jQuery );
