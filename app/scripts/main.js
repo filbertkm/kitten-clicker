@@ -1,25 +1,29 @@
+/* global jQuery */
+'use strict';
+
 (function( $ ) {
 
-	var	cats = [
+	var	view,
+		cats = [
 		{
-			"name": "Miso",
-			"file": "kitten.jpg",
-			"clicks": 0
+			'name': 'Miso',
+			'file': 'kitten.jpg',
+			'clicks': 0
 		},
 		{
-			"name": "Mango",
-			"file": "kitten2.jpg",
-			"clicks": 0
+			'name': 'Mango',
+			'file': 'kitten2.jpg',
+			'clicks': 0
 		},
 		{
-			"name": "Skittles",
-			"file": "kitten3.jpg",
-			"clicks": 0
+			'name': 'Skittles',
+			'file': 'kitten3.jpg',
+			'clicks': 0
 		},
 		{
-			"name": "Ginger",
-			"file": "kitten4.jpg",
-			"clicks": 0
+			'name': 'Ginger',
+			'file': 'kitten4.jpg',
+			'clicks': 0
 		}
 	];
 
@@ -34,11 +38,11 @@
 				clicksElement.innerHTML = getText( cat.clicks );
 
 				view.mainImage.setAttribute( 'src', 'images/' + cat.file );
-			}
+			};
 		}
 	};
 
-	var view = {
+	view = {
 		imageList: document.getElementById( 'image-list' ),
 		imageMain: document.getElementById( 'image-main' ),
 		mainImage: document.createElement( 'img' ),
@@ -56,18 +60,17 @@
 
 		makeClickCounter: function(cat) {
 			var clicks = document.createElement( 'span' );
-
 			clicks.innerHTML = cat.clicks + ' click(s)';
 
 			return clicks;
 		},
 
 		makeThumbnail: function(cat) {
-			var li = document.createElement( 'li' )
+			var li = document.createElement( 'li' ),
 				img = document.createElement( 'img' ),
-				clicks = this.makeClickCounter( cat );;
+				clicks = this.makeClickCounter( cat );
 
-			img.setAttribute( 'src', 'images/' + cat.file )
+			img.setAttribute( 'src', 'images/' + cat.file );
 			img.setAttribute( 'id', cat.name );
 
 			li.appendChild( img );
@@ -91,6 +94,8 @@
 
 	var init = function() {
 		$( document ).foundation();
+
+		console.log( 'init' );
 
 		view.setMainImage( cats[0].file );
 		view.init();
