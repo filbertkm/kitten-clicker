@@ -6,24 +6,29 @@
 	var	view,
 		cats = [
 		{
-			'name': 'Miso',
-			'file': 'kitten.jpg',
-			'clicks': 0
+			name: 'Miso',
+			file: 'kitten.jpg',
+			clicks: 0
 		},
 		{
-			'name': 'Mango',
-			'file': 'kitten2.jpg',
-			'clicks': 0
+			name: 'Mango',
+			file: 'kitten2.jpg',
+			clicks: 0
 		},
 		{
-			'name': 'Skittles',
-			'file': 'kitten3.jpg',
-			'clicks': 0
+			name: 'Skittles',
+			file: 'kitten3.jpg',
+			clicks: 0
 		},
 		{
-			'name': 'Ginger',
-			'file': 'kitten4.jpg',
-			'clicks': 0
+			name: 'Ginger',
+			file: 'kitten4.jpg',
+			clicks: 0
+		},
+		{
+			name: 'Pickles',
+			file: 'kitten5.jpg',
+			clicks: 0
 		}
 	];
 
@@ -75,10 +80,10 @@
 
 			li.appendChild( img );
 
-			img.parentNode.insertBefore(this.makeCatLabel(cat), img);
-			img.parentNode.insertBefore(clicks, img);
+			img.parentNode.insertBefore( this.makeCatLabel(cat), img );
+			img.parentNode.insertBefore( clicks, img );
 
-			img.addEventListener('click', controller.catClick( cat, clicks ), false);
+			img.addEventListener( 'click', controller.catClick( cat, clicks ), false );
 
 			return li;
 		},
