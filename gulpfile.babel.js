@@ -70,8 +70,11 @@ gulp.task('html', ['sass', 'styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('images', () => {
-  return gulp.src('app/images/**/*')
+gulp.task('media', () => {
+  var audio = gulp.src('app/media/meow.ogg')
+    .pipe(gulp.dest('dist/media'));
+
+  var images = gulp.src('app/media/**/*.jpg')
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true,
@@ -79,7 +82,9 @@ gulp.task('images', () => {
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
     })))
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('dist/media'));
+
+  return merge(audio, images);
 });
 
 gulp.task('fonts', () => {
@@ -114,7 +119,7 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
 
   gulp.watch([
     'app/*.html',
-    'app/images/**/*',
+    'app/media/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
@@ -162,7 +167,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'media', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

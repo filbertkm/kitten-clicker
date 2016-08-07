@@ -1,7 +1,7 @@
 /* global jQuery */
 'use strict';
 
-(function( $ ) {
+(function( $, Audio ) {
 
 	var	view,
 		cats = [
@@ -35,14 +35,17 @@
 	var controller = {
 		catClick: function(cat, clicksElement) {
 			return function() {
-				var getText = function( clickCount ) {
-					return clickCount + ' click(s)';
-				};
+				var audio = new Audio('media/meow.ogg'),
+					getText = function( clickCount ) {
+						return clickCount + ' click(s)';
+					};
+
+				audio.play();
 
 				cat.clicks++;
 				clicksElement.innerHTML = getText( cat.clicks );
 
-				view.mainImage.setAttribute( 'src', 'images/' + cat.file );
+				view.mainImage.setAttribute( 'src', 'media/' + cat.file );
 			};
 		}
 	};
@@ -53,7 +56,7 @@
 		mainImage: document.createElement( 'img' ),
 
 		setMainImage: function( fileName ) {
-			this.mainImage.setAttribute( 'src', 'images/' + fileName );
+			this.mainImage.setAttribute( 'src', 'media/' + fileName );
 		},
 
 		makeCatLabel: function(cat) {
@@ -75,7 +78,7 @@
 				img = document.createElement( 'img' ),
 				clicks = this.makeClickCounter( cat );
 
-			img.setAttribute( 'src', 'images/' + cat.file );
+			img.setAttribute( 'src', 'media/' + cat.file );
 			img.setAttribute( 'id', cat.name );
 
 			li.appendChild( img );
@@ -108,4 +111,4 @@
 
 	$( init );
 
-})( jQuery );
+})( jQuery, Audio );
